@@ -6,5 +6,8 @@
     "mark": "Баға",
     "current": "Ағымдағы",
     "homeWork": "Үй жұмысы"
+  },
+  "localSwitch": {
+    "switch": "Тілді таңдаңыз: "
   }
 }

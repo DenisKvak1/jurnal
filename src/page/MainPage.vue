@@ -1,7 +1,9 @@
 <script setup lang="ts">
-import MyDiary from '@/components/My-DiaryElement.vue';
+import MyDiary from '@/components/DiaryElement.vue';
 import { ref } from 'vue';
 import { useLocal } from '@/process/UseLocal.ts';
+import MyHeader from '@/components/My-Header.vue';
+import LocalSelect from '@/components/LocalSelect.vue';
 
 useLocal()
 
@@ -54,6 +56,7 @@ const les = ref([
 </script>
 
 <template>
+  <MyHeader></MyHeader>
   <div class="lg:w-[800px]">
     <MyDiary :date="'2024-07-08T16:17:12+00:00'" :lessons="les" />
   </div>

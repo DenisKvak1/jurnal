@@ -10,6 +10,7 @@ import {
 import { Lesson } from '@/types.ts';
 import { formatLocalizedDate } from '../helpers/formatTime.ts';
 import { useRegionStore } from '@/store/RegionStore.ts';
+import { computed, ref } from 'vue';
 
 const regionStore = useRegionStore();
 
@@ -24,6 +25,8 @@ const props = defineProps({
   },
 });
 
+const formatDate = computed(()=> formatLocalizedDate(props.date as string, regionStore.language));
+
 function getMarkCoof(mark: number) {
   return Math.ceil(mark / (regionStore.maxMark / 4));
 }
@@ -34,7 +37,7 @@ function getMarkCoof(mark: number) {
     <span
       v-if="props.date"
       class="text-lg lg:text-xl xl:text-2xl font-semibold mb-2 block"
-      >{{ formatLocalizedDate(props.date, regionStore.region) }}</span
+      >{{ formatDate }}</span
     >
     <Table>
       <TableHeader class="hidden lg:table-header-group">

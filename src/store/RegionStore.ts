@@ -23,6 +23,7 @@ export const useRegionStore = defineStore('region', {
         setLanguage(region: Region) {
             this.language = region;
             i18n.global.locale.value = region
+            localStorage.setItem('lang', region)
         },
         setRegion(region: Region) {
             this.region = region;

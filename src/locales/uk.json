@@ -6,5 +6,8 @@
     "mark": "Оцінка",
     "current": "Поточна",
     "homeWork": "Д/З"
+  },
+  "localSwitch": {
+    "switch": "Виберіть мову: "
   }
 }
