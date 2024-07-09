@@ -4,8 +4,9 @@ import { ref } from 'vue';
 import { useLocal } from '@/process/UseLocal.ts';
 import MyHeader from '@/components/My-Header.vue';
 import LocalSelect from '@/components/LocalSelect.vue';
+import SetMarks from '@/components/setMarks.vue';
 
-useLocal()
+useLocal();
 
 const les = ref([
   {
@@ -53,12 +54,29 @@ const les = ref([
     mark: 10,
   },
 ]);
+
+const marks = ref([
+  {
+    firstName: 'Денис',
+    lastName: 'Квак',
+    marks: [1, 2, 'H', '', 1, 10, 4]
+  },
+  {
+    firstName: 'Денис',
+    lastName: 'Замикула',
+    marks: [1, 2, 'H', '', 1, 10, 4]
+  }
+])
 </script>
 
 <template>
   <MyHeader></MyHeader>
   <div class="lg:w-[800px]">
-    <MyDiary :date="'2024-07-08T16:17:12+00:00'" :lessons="les" />
+    <set-marks
+      :marks="marks as any"
+      :week-date="{startWeekTIMESTAMP: '2024-07-09T08:40:43+00:00'}"
+    ></set-marks>
+    <!--    <MyDiary :date="'2024-07-08T16:17:12+00:00'" :lessons="les" />-->
   </div>
 </template>
 
