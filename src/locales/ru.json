@@ -1,0 +1,10 @@
+{
+  "diary": {
+    "calls": "Звонки",
+    "subjectName": "Предмет",
+    "task": "Задание",
+    "mark": "Оценка",
+    "current": "Текущая",
+    "homeWork": "Д/З"
+  }
+}
