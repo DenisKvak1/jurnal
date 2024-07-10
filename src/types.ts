@@ -5,6 +5,7 @@ export type Lesson = {
   callEnd: string;
   name: string;
   cabinet: string;
+  teacher: string;
   current: string;
   homeWork: string;
   mark: number;
@@ -16,7 +17,11 @@ export type Student = {
   firstName: string;
   lastName: string;
 }
-
+export type DiaryDayElement = {
+  id: number,
+  date: string,
+  subjects: Lesson[]
+}
 export type WeekDate = {
   startWeekTIMESTAMP: string;
 }

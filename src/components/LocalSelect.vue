@@ -13,7 +13,7 @@ import { useRegionStore } from '@/store/RegionStore.ts';
 import { cn } from '@/lib/utils.ts';
 
 const regionStore = useRegionStore();
-const local = ref('');
+const local = ref(regionStore.language);
 watch(local, () => regionStore.setLanguage(local.value as Region));
 
 const props = defineProps<{

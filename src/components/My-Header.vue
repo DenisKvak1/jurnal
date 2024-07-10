@@ -1,15 +1,14 @@
 <script setup lang="ts">
 import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuItem,
+    DropdownMenuLabel,
+    DropdownMenuSeparator,
+    DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { CircleUser, Menu, Package2, Search } from 'lucide-vue-next';
+import { CircleUser, Menu, Package2 } from 'lucide-vue-next';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
-import { Input } from '@/components/ui/input';
 import LocalSelect from '@/components/LocalSelect.vue';
 import DarkModeChange from '@/components/darkModeChange.vue';
 </script>
