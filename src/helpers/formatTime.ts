@@ -1,4 +1,4 @@
-import { format, parseISO } from 'date-fns';
+import { parseISO, addDays, format } from 'date-fns';
 import ukLocale from 'date-fns/locale/uk'; // Локализация для Украины
 import ruLocale from 'date-fns/locale/ru'; // Локализация для России
 import kzLocale from 'date-fns/locale/kk';
@@ -30,4 +30,16 @@ export function formatLocalizedDate(dateTimeString: string, country: Region): st
   const capitalizedDate = formattedDate.charAt(0).toUpperCase() + formattedDate.slice(1);
 
   return capitalizedDate;
+}
+
+export function generateDateArray(isoDateString: string): string[] {
+  const startDate = parseISO(isoDateString);
+  const datesArray = [];
+
+  for (let i = 0; i < 7; i++) {
+    const newDate = addDays(startDate, i);
+    datesArray.push(format(newDate, 'dd.MM'));
+  }
+
+  return datesArray;
 }

@@ -9,5 +9,10 @@
   },
   "localSwitch": {
     "switch": "Виберіть мову: "
+  },
+  "exhibitingMarksModeSwitch": {
+    "popup": "Спливаюче вікно",
+    "keyboard": "Клавіатура",
+    "students": "Учні"
   }
 }

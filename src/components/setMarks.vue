@@ -1,5 +1,12 @@
 <script setup lang="ts">
-import { Table, TableBody, TableCell, TableRow } from '@/components/ui/table';
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from '@/components/ui/table';
 import { Mark, WeekDate } from '@/types.ts';
 import {
   Popover,
@@ -15,10 +22,18 @@ import {
   NumberFieldInput,
 } from '@/components/ui/number-field';
 import Label from '@/components/ui/label/Label.vue';
-import { Ref, ref } from 'vue';
+import { onMounted, Ref, ref } from 'vue';
 import { useRegionStore } from '@/store/RegionStore.ts';
 import { PopoverClose } from 'radix-vue';
-import { string } from 'zod';
+import { generateDateArray } from '@/helpers/formatTime.ts';
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
 
 type MarksData = {
   id: number;
@@ -26,18 +41,6 @@ type MarksData = {
   lastName: string;
   marks: Mark[];
 };
-const regionStore = useRegionStore();
-
-const emit = defineEmits<{
-  (
-    event: 'update',
-    data: {
-      studentID: number;
-      markIndex: number;
-      value: Mark;
-    }
-  ): void;
-}>();
 
 const props = defineProps({
   marks: {
@@ -53,6 +56,21 @@ const props = defineProps({
     type: String,
   },
 });
+
+const emit = defineEmits<{
+  (
+    event: 'update',
+    data: {
+      studentID: number;
+      markIndex: number;
+      value: Mark;
+    }
+  ): void;
+}>();
+
+const regionStore = useRegionStore();
+const selectMode = ref('popap');
+const dateArray = ref(generateDateArray(props.weekDate?.startWeekTIMESTAMP));
 
 const forms: Ref<Ref<number[]>[]> = ref([]);
 props.marks?.forEach(() => {
@@ -92,13 +110,79 @@ function submitH(e: Event) {
     value: 'H',
   });
 }
+
+function inputFilterHandler(e: Event) {
+  const target = e.target as HTMLElement;
+  const asNumber = +(target.textContent as string);
+  const studentIndex = +(target.getAttribute('data-student-index') as string);
+  const markIndex = +(target.getAttribute('data-mark-index') as string);
+
+  if (isNaN(asNumber) && target.textContent !== 'H') {
+    target.textContent = (target.textContent as string).replace(
+      /[^H0-9]/gi,
+      ''
+    );
+  }
+  if (asNumber > regionStore.maxMark || asNumber <= 0) {
+    if (asNumber > regionStore.maxMark) {
+      target.textContent = regionStore.maxMark.toString();
+    } else if (asNumber <= 0) {
+      target.textContent = '1';
+    }
+  }
+
+  if (target.textContent !== '') {
+    emit('update', {
+      studentID: props.marks[studentIndex].id,
+      markIndex,
+      value: 'H',
+    });
+  }
+}
+
+function onSelectMode(value: string) {
+  localStorage.setItem('exhibitingMarksMode', value);
+}
+
+onMounted(() => {
+  const data = localStorage.getItem('exhibitingMarksMode');
+  if (!data) return;
+  selectMode.value = data;
+});
 </script>
 
 <template>
-  <h2 class="text-xl md:text-2xl font-semibold" v-if="props.subjectName">
-    {{ props.subjectName }}
-  </h2>
+  <div class="flex justify-between">
+    <h2 class="text-xl md:text-2xl font-semibold" v-if="props.subjectName">
+      {{ props.subjectName }}
+    </h2>
+    <Select
+      @update:modelValue="onSelectMode"
+      default-value="popap"
+      v-model="selectMode"
+    >
+      <SelectTrigger v-model="selectMode" class="w-[180px]">
+        <SelectValue />
+      </SelectTrigger>
+      <SelectContent>
+        <SelectGroup>
+          <SelectItem value="popap"> {{ $t('exhibitingMarksModeSwitch.popup') }}</SelectItem>
+          <SelectItem value="keyboard"> {{ $t('exhibitingMarksModeSwitch.keyboard') }} </SelectItem>
+        </SelectGroup>
+      </SelectContent>
+    </Select>
+  </div>
   <Table>
+    <TableHeader>
+      <TableRow>
+        <TableHead class="text-black md:text-lg">{{ $t('exhibitingMarksModeSwitch.students') }}: </TableHead>
+        <TableHead
+          class="text-xs md:text-base p-0 md:p-0"
+          v-for="date in dateArray"
+          >{{ date }}
+        </TableHead>
+      </TableRow>
+    </TableHeader>
     <TableBody>
       <TableRow v-for="(student, studentIndex) in props.marks">
         <TableCell class="md:hidden p-[0.6rem] font-semibold w-100 md:text-lg"
@@ -112,17 +196,35 @@ function submitH(e: Event) {
             {{ student.lastName }}
           </div>
         </TableCell>
-        <Popover v-for="(mark, markIndex) in student.marks">
+        <TableCell
+          v-if="selectMode === 'keyboard'"
+          v-for="(mark, markIndex) in student.marks"
+          class="p-0 md:p-0 cursor-pointer md:text-base w-[39.69px] md:w-[61px]"
+        >
+          <div
+            :data-student-index="studentIndex"
+            :data-mark-index="markIndex"
+            @input="inputFilterHandler"
+            contenteditable="true"
+            class="p-[0.6rem] td-into w-full h-full flex items-center justify-center"
+          >
+            {{ mark }}
+          </div>
+        </TableCell>
+        <Popover
+          v-if="selectMode === 'popap'"
+          v-for="(mark, markIndex) in student.marks"
+        >
           <PopoverTrigger as-child>
             <TableCell
-              class="cursor-pointer md:text-base p-[0.6rem] w-[39.69px] md:w-[56.5px]"
+              class="cursor-pointer md:text-base p-[0.6rem] w-[39.69px] md:w-[61px]"
             >
               <div class="flex items-center justify-center">
                 {{ mark }}
               </div>
             </TableCell>
           </PopoverTrigger>
-          <PopoverContent class="w-[187px]">
+          <PopoverContent class="w-[180px]">
             <div>
               <NumberField
                 v-model="forms[studentIndex].value[markIndex]"
@@ -165,4 +267,13 @@ function submitH(e: Event) {
   </Table>
 </template>
 
-<style scoped></style>
+<style scoped>
+.td-into:focus-visible {
+  outline: none;
+}
+
+td:has(.td-into:focus-visible) {
+  outline: 2px solid black;
+  border-radius: 3px;
+}
+</style>

@@ -9,5 +9,10 @@
   },
   "localSwitch": {
     "switch": "Тілді таңдаңыз: "
+  },
+  "exhibitingMarksModeSwitch": {
+    "popup": "Қалқымалы терезе",
+    "keyboard": "Пернетақта",
+    "students": "Оқушылар"
   }
 }

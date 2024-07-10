@@ -74,7 +74,7 @@ const marks = ref([
 
 <template>
   <MyHeader></MyHeader>
-  <div class="lg:w-[650px]">
+  <div class="lg:w-[680px]">
     <set-marks
       :subject-name="'Математика'"
       :marks="marks as any"

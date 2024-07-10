@@ -11,6 +11,7 @@ import { CircleUser, Menu, Package2, Search } from 'lucide-vue-next';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import { Input } from '@/components/ui/input';
 import LocalSelect from '@/components/LocalSelect.vue';
+import DarkModeChange from '@/components/darkModeChange.vue';
 </script>
 
 <template>
@@ -87,16 +88,17 @@ import LocalSelect from '@/components/LocalSelect.vue';
         </nav>
       </SheetContent>
     </Sheet>
-    <div class="w-full flex items-center">
+    <div class="w-full flex gap-3 items-center">
       <div class="grid gap-6 text-base font-medium md:hidden">
         <a href="#" class="hover:text-foreground">
           <Package2 class="h-6 w-6" />
         </a>
       </div>
       <LocalSelect class="ml-auto"></LocalSelect>
+      <dark-mode-change></dark-mode-change>
       <DropdownMenu>
         <DropdownMenuTrigger as-child>
-          <Button variant="secondary" size="icon" class="ml-4 rounded-full">
+          <Button variant="secondary" size="icon" class="rounded-full">
             <CircleUser class="h-5 w-5" />
             <span class="sr-only">Toggle user menu</span>
           </Button>

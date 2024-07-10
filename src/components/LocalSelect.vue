@@ -23,7 +23,7 @@ const props = defineProps<{
 
 <template>
   <Select v-model="local">
-    <SelectTrigger :class="cn(props.class, 'w-[180px]')">
+    <SelectTrigger :class="cn(props.class, 'w-[160px]')">
       <SelectValue :placeholder="$t('localSwitch.switch')" />
     </SelectTrigger>
     <SelectContent>
