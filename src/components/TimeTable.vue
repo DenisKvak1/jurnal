@@ -9,7 +9,7 @@ import { useRegionStore } from '@/store/RegionStore.ts';
 import { getDayOfWeekString } from '../helpers/formatTime.ts';
 import { computed } from 'vue';
 import { useWindowSize } from '@vueuse/core';
-import { Table, TableBody, TableCell, TableHeader, TableRow } from '@/components/ui/table';
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 
 const { width } = useWindowSize();
 const regionStore = useRegionStore();
@@ -65,11 +65,23 @@ function findLongestSubjectsArray(objects: DiaryDayElement[]): any[] {
         </Carousel>
         <Table v-if="width >= 1024">
             <TableHeader>
-
+                <TableRow>
+                    <TableHead class="pb-2">
+                        <div class="h-[50px] flex flex-col justify-end gap-1 font-medium  text-black font-sm">
+                            <span>Урок</span>
+                        </div>
+                    </TableHead>
+                    <TableHead v-for="index in 7" class="pb-2">
+                        <div class="h-[50px] flex flex-col  justify-end gap-1 font-medium text-black font-sm">
+                            <span>27</span>
+                            <span>Понедельник</span>
+                        </div>
+                    </TableHead>
+                </TableRow>
             </TableHeader>
             <TableBody>
                 <TableRow v-for="(day, dayIndex) in findLongestSubjectsArray(props.timeTable)">
-                    <TableCell class="w-[120px] lg:w-[160px]">
+                    <TableCell class="min-w-[120px]">
                         <div class="flex justify-between">
                             <div class="flex flex-col">
                                 <span class="text-base font-medium">{{ day.callStart }}</span>
@@ -80,12 +92,13 @@ function findLongestSubjectsArray(objects: DiaryDayElement[]): any[] {
                             </span>
                         </div>
                     </TableCell>
-                    <TableCell v-for="index in 7" class="w-[160px]">
+                    <TableCell v-for="index in 7" class="min-w-[160px]">
                         <div class="flex flex-col gap-1">
-                            <span class="text-base"> {{ props.timeTable[index-1]?.subjects[dayIndex]?.name }} </span>
+                            <span class="text-base"> {{ props.timeTable[index - 1]?.subjects[dayIndex]?.name }} </span>
                             <span
-                                class="text-[#6b4cff] dark:text-[#646464]"> {{ props.timeTable[index-1]?.subjects[dayIndex]?.teacher }}</span>
-                            <span> {{ props.timeTable[index-1]?.subjects[dayIndex]?.cabinet }}</span>
+                                class="text-[#6b4cff] dark:text-[#646464]"> {{ props.timeTable[index - 1]?.subjects[dayIndex]?.teacher
+                                }}</span>
+                            <span> {{ props.timeTable[index - 1]?.subjects[dayIndex]?.cabinet }}</span>
                         </div>
                     </TableCell>
                 </TableRow>
