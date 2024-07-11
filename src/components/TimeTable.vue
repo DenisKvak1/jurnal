@@ -6,7 +6,7 @@ import {
 } from '@/components/ui/carousel';
 import { DiaryDayElement } from '@/types.ts';
 import { useRegionStore } from '@/store/RegionStore.ts';
-import { getDayOfWeekString } from '../helpers/formatTime.ts';
+import { formatDateAndTime, getDayFromDate, getDayOfWeekString } from '../helpers/formatTime.ts';
 import { computed } from 'vue';
 import { useWindowSize } from '@vueuse/core';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
@@ -66,14 +66,14 @@ function findLongestSubjectsArray(objects: DiaryDayElement[]): any[] {
         <Table v-if="width >= 1024">
             <TableHeader>
                 <TableRow>
-                    <TableHead class="pb-2">
+                    <TableHead class="pb-2 ">
                         <div class="h-[50px] flex flex-col justify-end gap-1 font-medium  text-black font-sm">
                             <span>Урок</span>
                         </div>
                     </TableHead>
                     <TableHead v-for="index in 7" class="pb-2">
                         <div class="h-[50px] flex flex-col  justify-end gap-1 font-medium text-black font-sm">
-                            <span>{{ props.timeTable[index - 1].date }}</span>
+                            <span>{{ getDayFromDate(props.timeTable[index - 1].date) }}</span>
                             <span>{{ getDayOfWeekString(props.timeTable[index - 1].date, regionStore.language) }}</span>
                         </div>
                     </TableHead>

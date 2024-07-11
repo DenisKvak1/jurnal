@@ -2,8 +2,6 @@
 import { ref } from 'vue';
 import { useLocal } from '@/process/UseLocal.ts';
 import MyHeader from '@/components/My-Header.vue';
-import SetMarks from '@/components/setMarks.vue';
-import DiaryElement from '@/components/DiaryElement.vue';
 import TimeTable from '@/components/TimeTable.vue';
 
 useLocal();
@@ -57,7 +55,7 @@ const les = ref([
 const days = ref([
     {
         id: 1,
-        date: '01.06.24',
+        date: '03.06.24',
         subjects: [
             {
                 id: 5,
@@ -147,7 +145,7 @@ const days = ref([
     },
     {
         id: 2,
-        date: '02.06.24',
+        date: '04.06.24',
         subjects: [
             {
                 id: 123,
@@ -237,7 +235,7 @@ const days = ref([
     },
     {
         id: 3,
-        date: '03.06.24',
+        date: '05.06.24',
         subjects: [
             {
                 teacher: 'Клавида петровна',
@@ -315,7 +313,7 @@ const days = ref([
     },
     {
         id: 3,
-        date: '03.06.24',
+        date: '06.06.24',
         subjects: [
             {
                 teacher: 'Клавида петровна',
@@ -393,7 +391,7 @@ const days = ref([
     },
     {
         id: 3,
-        date: '03.06.24',
+        date: '07.06.24',
         subjects: [
             {
                 teacher: 'Клавида петровна',
@@ -471,7 +469,7 @@ const days = ref([
     },
     {
         id: 3,
-        date: '03.06.24',
+        date: '08.06.24',
         subjects: [
             {
                 teacher: 'Клавида петровна',
@@ -549,7 +547,7 @@ const days = ref([
     },
     {
         id: 3,
-        date: '03.06.24',
+        date: '09.06.24',
         subjects: [
             {
                 teacher: 'Клавида петровна',

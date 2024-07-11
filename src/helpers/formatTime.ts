@@ -1,4 +1,4 @@
-import { addDays, format, parse, parseISO } from 'date-fns';
+import { addDays, getDate, format, parse, parseISO } from 'date-fns';
 
 import ukLocale from 'date-fns/locale/uk'; // Локализация для Украины
 import ruLocale from 'date-fns/locale/ru'; // Локализация для России
@@ -67,4 +67,9 @@ export function getDayOfWeekString(dateString: string, language: Region): string
     const dayOfWeekString = format(dateObject, 'eeee', { locale });
 
     return dayOfWeekString.charAt(0).toUpperCase() + dayOfWeekString.slice(1);
+}
+
+export function getDayFromDate(dateStr: string): number {
+    const parsedDate = parse(dateStr, 'dd.MM.yy', new Date());
+    return getDate(parsedDate);
 }
