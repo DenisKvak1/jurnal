@@ -24,7 +24,7 @@ const props = defineProps({
     type: String,
   },
 });
-
+console.log(props.date)
 const formatDate = computed(()=> formatLocalizedDate(props.date as string, regionStore.language));
 
 function getMarkCoof(mark: number) {

@@ -12,6 +12,7 @@
     "@types/date-fns": "^2.6.0",
     "@unovis/ts": "^1.4.2",
     "@unovis/vue": "^1.4.2",
+    "@vee-validate/rules": "^4.13.2",
     "@vee-validate/zod": "^4.13.2",
     "@vueuse/core": "^10.11.0",
     "class-variance-authority": "^0.7.0",

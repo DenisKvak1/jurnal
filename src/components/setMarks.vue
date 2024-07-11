@@ -182,7 +182,7 @@ onMounted(() => {
             </Select>
         </div>
         <Table>
-            <TableHeader>dark:text-white
+            <TableHeader>
                 <TableRow>
                     <TableHead class="md:text-lg   text-black">{{
                             $t('exhibitingMarksModeSwitch.students')
