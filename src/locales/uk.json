@@ -14,5 +14,8 @@
     "popup": "Спливаюче вікно",
     "keyboard": "Клавіатура",
     "students": "Учні"
+  },
+  "timeTable": {
+    "lesson": "Урок"
   }
 }

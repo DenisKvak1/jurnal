@@ -1,110 +1,138 @@
 <script setup lang="ts">
 import {
-    Carousel,
-    CarouselContent,
-    CarouselItem,
+  Carousel,
+  CarouselContent,
+  CarouselItem,
 } from '@/components/ui/carousel';
 import { DiaryDayElement } from '@/types.ts';
 import { useRegionStore } from '@/store/RegionStore.ts';
-import { formatDateAndTime, getDayFromDate, getDayOfWeekString } from '../helpers/formatTime.ts';
-import { computed } from 'vue';
+import { getDayFromDate, getDayOfWeekString } from '../helpers/formatTime.ts';
 import { useWindowSize } from '@vueuse/core';
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from '@/components/ui/table';
 
 const { width } = useWindowSize();
 const regionStore = useRegionStore();
 const props = defineProps({
-    timeTable: {
-        required: true,
-        type: Array as () => DiaryDayElement[],
-    },
+  timeTable: {
+    required: true,
+    type: Array as () => DiaryDayElement[],
+  },
 });
 
 function findLongestSubjectsArray(objects: DiaryDayElement[]): any[] {
-    return objects.reduce((longest, current) => {
-        return current.subjects.length > longest.length ? current.subjects : longest;
-    }, [] as any[]);
+  return objects.reduce((longest, current) => {
+    return current.subjects.length > longest.length
+      ? current.subjects
+      : longest;
+  }, [] as any[]);
 }
-
-
 </script>
 
 <template>
-    <div>
-        <Carousel v-if="width < 1024">
-            <CarouselContent>
-                <CarouselItem v-for="dayElement in props.timeTable">
-                    <div class="flex flex-col gap-1">
-                        <h4 class="scroll-m-20 text-xl font-semibold tracking-tight">
-                            {{ getDayOfWeekString(dayElement.date, regionStore.language) }}
-                        </h4>
-                        <div class="flex flex-col last-of-type:border-b">
-                            <div
-                                class="flex items-center border-t p-3 border-l border-r"
-                                v-for="(subject, index) in dayElement.subjects"
-                            >
-                                <div class="w-[30px]">
-                                    {{ index + 1 }}
-                                </div>
-                                <div class="w-[60px] flex flex-col gap-1">
-                                    <span class="font-medium">{{ subject.callStart }}</span>
-                                    <span class="font-medium">{{ subject.callEnd }}</span>
-                                </div>
-                                <div class="flex flex-col gap-1">
-                                    <span class="font-medium text-lg"> {{ subject.name }} </span>
-                                    <span class="text-sm text-[#6b4cff] dark:text-[#646464]">
+  <div>
+    <Carousel v-if="width < 1024">
+      <CarouselContent>
+        <CarouselItem v-for="dayElement in props.timeTable">
+          <div class="flex flex-col gap-1">
+            <h4 class="scroll-m-20 text-xl font-semibold tracking-tight">
+              {{ getDayOfWeekString(dayElement.date, regionStore.language) }}
+            </h4>
+            <div class="flex flex-col last-of-type:border-b">
+              <div
+                class="flex items-center border-t p-3 border-l border-r"
+                v-for="(subject, index) in dayElement.subjects"
+              >
+                <div class="w-[30px]">
+                  {{ index + 1 }}
+                </div>
+                <div class="w-[60px] flex flex-col gap-1">
+                  <span class="font-medium">{{ subject.callStart }}</span>
+                  <span class="font-medium">{{ subject.callEnd }}</span>
+                </div>
+                <div class="flex flex-col gap-1">
+                  <span class="font-medium text-lg"> {{ subject.name }} </span>
+                  <span class="text-sm text-[#6b4cff] dark:text-[#646464]">
                     {{ subject.teacher }}
                   </span>
-                                    <span class="text-sm"> {{ subject.cabinet }} </span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </CarouselItem>
-            </CarouselContent>
-        </Carousel>
-        <Table v-if="width >= 1024">
-            <TableHeader>
-                <TableRow>
-                    <TableHead class="pb-2 ">
-                        <div class="h-[50px] flex flex-col justify-end gap-1 font-medium  text-black font-sm">
-                            <span>Урок</span>
-                        </div>
-                    </TableHead>
-                    <TableHead v-for="index in 7" class="pb-2">
-                        <div class="h-[50px] flex flex-col  justify-end gap-1 font-medium text-black font-sm">
-                            <span>{{ getDayFromDate(props.timeTable[index - 1].date) }}</span>
-                            <span>{{ getDayOfWeekString(props.timeTable[index - 1].date, regionStore.language) }}</span>
-                        </div>
-                    </TableHead>
-                </TableRow>
-            </TableHeader>
-            <TableBody>
-                <TableRow v-for="(day, dayIndex) in findLongestSubjectsArray(props.timeTable)">
-                    <TableCell class="min-w-[120px]">
-                        <div class="flex justify-between">
-                            <div class="flex flex-col">
-                                <span class="text-base font-medium">{{ day.callStart }}</span>
-                                <span class="text-base font-medium">{{ day.callEnd }}</span>
-                            </div>
-                            <span class="text-base font-medium">
-                                {{ dayIndex + 1 }}
-                            </span>
-                        </div>
-                    </TableCell>
-                    <TableCell v-for="index in 7" class="min-w-[160px]">
-                        <div class="flex flex-col gap-1">
-                            <span class="text-base"> {{ props.timeTable[index - 1]?.subjects[dayIndex]?.name }} </span>
-                            <span
-                                class="text-[#6b4cff] dark:text-[#646464]"> {{ props.timeTable[index - 1]?.subjects[dayIndex]?.teacher
-                                }}</span>
-                            <span> {{ props.timeTable[index - 1]?.subjects[dayIndex]?.cabinet }}</span>
-                        </div>
-                    </TableCell>
-                </TableRow>
-            </TableBody>
-        </Table>
-    </div>
+                  <span class="text-sm"> {{ subject.cabinet }} </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </CarouselItem>
+      </CarouselContent>
+    </Carousel>
+    <Table v-if="width >= 1024">
+      <TableHeader>
+        <TableRow>
+          <TableHead class="pb-2">
+            <div
+              class="h-[50px] flex flex-col dark:text-white justify-end gap-1 font-medium text-black font-sm"
+            >
+              <div class="flex justify-between">
+                  <span>{{ $t('timeTable.lesson') }}</span>
+                  <span>№</span>
+              </div>
+            </div>
+          </TableHead>
+          <TableHead v-for="index in 7" class="pb-2">
+            <div
+              class="h-[50px] flex flex-col justify-end gap-1 font-medium text-black dark:text-white font-sm"
+            >
+              <span>{{ getDayFromDate(props.timeTable[index - 1].date) }}</span>
+              <span>{{
+                getDayOfWeekString(
+                  props.timeTable[index - 1].date,
+                  regionStore.language
+                )
+              }}</span>
+            </div>
+          </TableHead>
+        </TableRow>
+      </TableHeader>
+      <TableBody>
+        <TableRow
+          v-for="(day, dayIndex) in findLongestSubjectsArray(props.timeTable)"
+        >
+          <TableCell class="min-w-[120px]">
+            <div class="flex justify-between">
+              <div class="flex flex-col">
+                <span class="text-base font-medium">{{ day.callStart }}</span>
+                <span class="text-base font-medium">{{ day.callEnd }}</span>
+              </div>
+              <span class="text-base font-medium">
+                {{ dayIndex + 1 }}
+              </span>
+            </div>
+          </TableCell>
+          <TableCell v-for="index in 7" class="min-w-[140px] xl:min-w-[150px]">
+            <div class="flex flex-col gap-1">
+              <span class="text-sm xl:text-base">
+                {{ props.timeTable[index - 1]?.subjects[dayIndex]?.name }}
+              </span>
+              <span class="text-xs xl:sm text-[#6b4cff] dark:text-[#646464]">
+                {{
+                  props.timeTable[index - 1]?.subjects[dayIndex]?.teacher
+                }}</span
+              >
+              <span class="text-xs xl:sm">
+                {{
+                  props.timeTable[index - 1]?.subjects[dayIndex]?.cabinet
+                }}</span
+              >
+            </div>
+          </TableCell>
+        </TableRow>
+      </TableBody>
+    </Table>
+  </div>
 </template>
 
 <style scoped></style>
