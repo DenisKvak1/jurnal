@@ -36,7 +36,7 @@ function findLongestSubjectsArray(objects: DiaryDayElement[]): any[] {
                 <CarouselItem v-for="dayElement in props.timeTable">
                     <div class="flex flex-col gap-1">
                         <h4 class="scroll-m-20 text-xl font-semibold tracking-tight">
-                            {{ computed(() => getDayOfWeekString(dayElement.date, regionStore.language)) }}
+                            {{ getDayOfWeekString(dayElement.date, regionStore.language) }}
                         </h4>
                         <div class="flex flex-col last-of-type:border-b">
                             <div
@@ -73,8 +73,8 @@ function findLongestSubjectsArray(objects: DiaryDayElement[]): any[] {
                     </TableHead>
                     <TableHead v-for="index in 7" class="pb-2">
                         <div class="h-[50px] flex flex-col  justify-end gap-1 font-medium text-black font-sm">
-                            <span>27</span>
-                            <span>Понедельник</span>
+                            <span>{{ props.timeTable[index - 1].date }}</span>
+                            <span>{{ getDayOfWeekString(props.timeTable[index - 1].date, regionStore.language) }}</span>
                         </div>
                     </TableHead>
                 </TableRow>
