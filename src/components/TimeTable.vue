@@ -80,12 +80,12 @@ function findLongestSubjectsArray(objects: DiaryDayElement[]): any[] {
                             </span>
                         </div>
                     </TableCell>
-                    <TableCell v-for="index in 7" class="w-[200px]">
+                    <TableCell v-for="index in 7" class="w-[160px]">
                         <div class="flex flex-col gap-1">
-                            <span class="text-base"> {{ props.timeTable[dayIndex]?.subjects[index]?.name }} </span>
+                            <span class="text-base"> {{ props.timeTable[index-1]?.subjects[dayIndex]?.name }} </span>
                             <span
-                                class="text-blue-600"> {{ props.timeTable[dayIndex]?.subjects[index]?.teacher }}</span>
-                            <span> {{ props.timeTable[dayIndex]?.subjects[index]?.cabinet }}</span>
+                                class="text-[#6b4cff] dark:text-[#646464]"> {{ props.timeTable[index-1]?.subjects[dayIndex]?.teacher }}</span>
+                            <span> {{ props.timeTable[index-1]?.subjects[dayIndex]?.cabinet }}</span>
                         </div>
                     </TableCell>
                 </TableRow>

@@ -5,7 +5,6 @@ import { Icon } from '@iconify/vue';
 import { Toggle } from 'radix-vue';
 
 const mode = useColorMode();
-mode.value = 'auto';
 
 function toggle() {
     if(mode.value === 'light'){
