@@ -10,47 +10,50 @@ import {
 } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import {
-    configure,
-    defineRule,
-    ErrorMessage,
-    Form,
-    useField,
-    useForm,
-} from 'vee-validate';
-import { email, min, required, max} from '@vee-validate/rules';
+import { ErrorMessage, Form, useField, useForm } from 'vee-validate';
 import i18n from '@/locales';
 
-const t = i18n.global.t
-defineRule('required', required);
-defineRule('email', email);
-defineRule('min', min);
-defineRule('max', max);
+const t = i18n.global.t;
 
+type form = {
+    email: string,
+    password: string,
+}
 
-configure({
-    generateMessage: ({ field, rule }) => {
-        if (!rule) {
-            return `${field} не прошло валидацию`;
-        }
+const emit = defineEmits<{
+    (event: 'login', values: form): void;
+}>()
 
-        const messages: Record<string, string> = {
-            required: t('validateError.required'),
-            email: t('authenticationForm.validateError.emailCorrect'),
-            min: t('validateError.min', {min: 8}),
-            max: t('validateError.max', {max: 30})
-        };
+const validations = {
+  email: (value: string) => {
+    const regex = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g;
+    if (!value) return t('validateError.required');
+    if (!regex.test(value)) return t('authenticationForm.validateError.emailCorrect');
 
-        return messages[rule.name as keyof typeof messages] || `Поле ${field} не прошло валидацию`;
-    },
+    return true;
+  },
+  password: (value: string) => {
+    const min = 8;
+    const max = 30;
+
+    if (!value) return t('validateError.required');
+    if (value.trim() !== value) return t('validateError.trim');
+    if (value.length < min) return t('validateError.min', { min });
+    if (value.length > max) return t('validateError.max', { max });
+
+    return true;
+  },
+};
+const { handleSubmit, resetForm } = useForm({
+  validationSchema: validations,
 });
+const { value: email, errorMessage: emailError } = useField('email');
+const { value: password, errorMessage: passwordError } = useField('password');
 
-const { handleSubmit } = useForm();
-
-const { value: emailForm } = useField('email', 'required|email');
-const { value: passwordForm } = useField('password', 'required|min:8|max:30');
-
-function onSubmit() {}
+const onSubmit = handleSubmit((values) => {
+    resetForm(values);
+    emit('login', values as form)
+});
 </script>
 
 <template>
@@ -63,32 +66,36 @@ function onSubmit() {}
         {{ $t('authenticationForm.describe') }}
       </CardDescription>
     </CardHeader>
-    <form @submit="handleSubmit(onSubmit)">
+    <form>
       <CardContent class="grid gap-4">
         <div class="grid gap-2">
           <Label for="email">{{ $t('authenticationForm.email') }}</Label>
           <Input
-            v-model="emailForm as string"
+            v-model="email as string"
             id="email"
             type="email"
             placeholder="m@example.com"
+            autocomplete="email"
             required
           />
-          <ErrorMessage name="email"></ErrorMessage>
+          <span>{{ emailError}}</span>
         </div>
         <div class="grid gap-2">
           <Label for="password">{{ $t('authenticationForm.password') }}</Label>
           <Input
-            v-model="passwordForm as string"
+            v-model="password as string"
             id="password"
             type="password"
+            autocomplete="password"
             required
           />
-          <ErrorMessage name="password"></ErrorMessage>
+          <span>{{passwordError}}</span>
         </div>
       </CardContent>
       <CardFooter>
-        <Button type="submit" class="w-full"> {{ $t('authenticationForm.signIn') }}</Button>
+        <Button @click="onSubmit" class="w-full">
+          {{ $t('authenticationForm.signIn') }}
+        </Button>
       </CardFooter>
     </form>
   </Card>

@@ -1,5 +1,6 @@
 export const config = {
-  startLanguage: 'ru',
-  startRegion: 'uk',
-  startMaxMark: 12
-}
+    IP: '127.0.0.1',
+    startLanguage: 'ru',
+    startRegion: 'uk',
+    startMaxMark: 12,
+};

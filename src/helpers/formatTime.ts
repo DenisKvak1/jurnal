@@ -1,4 +1,4 @@
-import { addDays, getDate, format, parse, parseISO } from 'date-fns';
+import { addDays, compareAsc, format, getDate, getDay, parse, parseISO } from 'date-fns';
 
 import ukLocale from 'date-fns/locale/uk'; // Локализация для Украины
 import ruLocale from 'date-fns/locale/ru'; // Локализация для России
@@ -72,4 +72,18 @@ export function getDayOfWeekString(dateString: string, language: Region): string
 export function getDayFromDate(dateStr: string): number {
     const parsedDate = parse(dateStr, 'dd.MM.yy', new Date());
     return getDate(parsedDate);
+}
+
+export function getCurrentDayIndex() {
+    const today = new Date();
+    return getDay(today) - 1;
+}
+
+export function compareWithCurrentDate(dateString: string) {
+    // Разбираем строку даты формата DD.MM.YY
+    const parsedDate = parse(dateString, 'dd.MM.yy', new Date());
+    const currentDate = new Date();
+
+    // Сравниваем даты
+    return compareAsc(currentDate, parsedDate);
 }

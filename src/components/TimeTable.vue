@@ -6,7 +6,12 @@ import {
 } from '@/components/ui/carousel';
 import { DiaryDayElement } from '@/types.ts';
 import { useRegionStore } from '@/store/RegionStore.ts';
-import { getDayFromDate, getDayOfWeekString } from '../helpers/formatTime.ts';
+import {
+    compareWithCurrentDate,
+    getCurrentDayIndex,
+    getDayFromDate,
+    getDayOfWeekString,
+} from '../helpers/formatTime.ts';
 import { useWindowSize } from '@vueuse/core';
 import {
   Table,
@@ -33,11 +38,13 @@ function findLongestSubjectsArray(objects: DiaryDayElement[]): any[] {
       : longest;
   }, [] as any[]);
 }
+
+const startIndex = compareWithCurrentDate(props.timeTable[0].date) >= 0 ? getCurrentDayIndex() : 0;
 </script>
 
 <template>
   <div>
-    <Carousel v-if="width < 1024">
+    <Carousel :opts="{startIndex}" v-if="width < 1024">
       <CarouselContent>
         <CarouselItem v-for="dayElement in props.timeTable">
           <div class="flex flex-col gap-1">

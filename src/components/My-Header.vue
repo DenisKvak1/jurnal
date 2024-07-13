@@ -1,16 +1,20 @@
 <script setup lang="ts">
 import {
-    DropdownMenu,
-    DropdownMenuContent,
-    DropdownMenuItem,
-    DropdownMenuLabel,
-    DropdownMenuSeparator,
-    DropdownMenuTrigger,
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { CircleUser, Menu, Package2 } from 'lucide-vue-next';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import LocalSelect from '@/components/LocalSelect.vue';
 import DarkModeChange from '@/components/darkModeChange.vue';
+import { useAuthenticationStore } from '@/store/AuthenticationStore.ts';
+import { Button } from '@/components/ui/button';
+
+const authStore = useAuthenticationStore();
 </script>
 
 <template>
@@ -88,14 +92,14 @@ import DarkModeChange from '@/components/darkModeChange.vue';
       </SheetContent>
     </Sheet>
     <div class="w-full flex gap-3 items-center">
-      <div class="grid gap-6 text-base font-medium md:hidden">
+      <div v-if="authStore.isAuthenticated" class="grid gap-6 text-base font-medium md:hidden">
         <a href="#" class="hover:text-foreground">
           <Package2 class="h-6 w-6" />
         </a>
       </div>
       <LocalSelect class="ml-auto"></LocalSelect>
       <dark-mode-change></dark-mode-change>
-      <DropdownMenu>
+      <DropdownMenu v-if="authStore.isAuthenticated">
         <DropdownMenuTrigger as-child>
           <Button variant="secondary" size="icon" class="rounded-full">
             <CircleUser class="h-5 w-5" />
@@ -106,13 +110,14 @@ import DarkModeChange from '@/components/darkModeChange.vue';
           <DropdownMenuLabel>My Account</DropdownMenuLabel>
           <DropdownMenuSeparator />
           <DropdownMenuItem>Settings</DropdownMenuItem>
-          <DropdownMenuItem>Support</DropdownMenuItem>
           <DropdownMenuSeparator />
           <DropdownMenuItem>Logout</DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
+      <Button class="px-2 sm:px-4" v-else>Войти</Button>
     </div>
   </header>
 </template>
+
 
 <style scoped></style>
