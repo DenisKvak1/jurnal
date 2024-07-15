@@ -1,4 +1,12 @@
-import { addDays, compareAsc, format, getDate, getDay, parse, parseISO } from 'date-fns';
+import {
+    addDays,
+    compareAsc,
+    format,
+    getDate,
+    getDay,
+    parse,
+    parseISO,
+} from 'date-fns';
 
 import ukLocale from 'date-fns/locale/uk'; // Локализация для Украины
 import ruLocale from 'date-fns/locale/ru'; // Локализация для России
@@ -49,7 +57,10 @@ export function generateDateArray(isoDateString: string): string[] {
     return datesArray;
 }
 
-export function getDayOfWeekString(dateString: string, language: Region): string | null {
+export function getDayOfWeekString(
+    dateString: string,
+    language: Region
+): string | null {
     let locale;
     switch (language) {
         case 'uk':
@@ -86,4 +97,24 @@ export function compareWithCurrentDate(dateString: string) {
 
     // Сравниваем даты
     return compareAsc(currentDate, parsedDate);
+}
+export function formatDateDMMMM(dateString: string, language: Region) {
+    let locale;
+
+    switch (language) {
+        case 'uk':
+            locale = ukLocale;
+            break;
+        case 'ru':
+            locale = ruLocale;
+            break;
+        case 'kz':
+            locale = kzLocale;
+            break;
+    }
+
+    // Парсим дату из строки
+    const date = parse(dateString, 'yyyy-MM-dd', new Date());
+
+    return format(date, 'd MMMM', { locale: locale });
 }

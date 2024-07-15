@@ -39,10 +39,9 @@ export type User = {
     lastName: string;
     surname: string;
     birthday: string;
-    school: string;
-    class: string;
-    photo: string;
-    gender: 0 | 1;
+    school?: string;
+    class?: string;
+    photo?: string;
 };
 
 export type Region = 'uk' | 'ru' | 'kz';

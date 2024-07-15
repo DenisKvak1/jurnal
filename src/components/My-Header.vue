@@ -1,12 +1,4 @@
 <script setup lang="ts">
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
 import { CircleUser, Menu, Package2 } from 'lucide-vue-next';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import LocalSelect from '@/components/LocalSelect.vue';
@@ -19,7 +11,7 @@ const authStore = useAuthenticationStore();
 
 <template>
   <header
-    class="z-10 sticky top-0 flex h-16 items-center gap-4 border-b bg-background px-4 md:px-6"
+    class="z-10 sticky top-0 flex h-16 items-center justify-str border-b bg-background px-4 md:px-6"
   >
     <nav
       class="hidden flex-col gap-6 text-lg font-medium md:flex md:flex-row md:items-center md:gap-5 md:text-sm lg:gap-6"
@@ -92,32 +84,31 @@ const authStore = useAuthenticationStore();
       </SheetContent>
     </Sheet>
     <div class="w-full flex gap-3 items-center">
-      <div v-if="authStore.isAuthenticated" class="grid gap-6 text-base font-medium md:hidden">
-        <a href="#" class="hover:text-foreground">
-          <Package2 class="h-6 w-6" />
-        </a>
-      </div>
+      <!--      <div-->
+      <!--        v-if="authStore.isAuthenticated"-->
+      <!--        class="grid gap-6 text-base font-medium md:hidden"-->
+      <!--      >-->
+      <!--        <a href="#" class="hover:text-foreground">-->
+      <!--          <Package2 class="h-6 w-6" />-->
+      <!--        </a>-->
+      <!--      </div>-->
       <LocalSelect class="ml-auto"></LocalSelect>
       <dark-mode-change></dark-mode-change>
-      <DropdownMenu v-if="authStore.isAuthenticated">
-        <DropdownMenuTrigger as-child>
-          <Button variant="secondary" size="icon" class="rounded-full">
-            <CircleUser class="h-5 w-5" />
-            <span class="sr-only">Toggle user menu</span>
-          </Button>
-        </DropdownMenuTrigger>
-        <DropdownMenuContent align="end">
-          <DropdownMenuLabel>My Account</DropdownMenuLabel>
-          <DropdownMenuSeparator />
-          <DropdownMenuItem>Settings</DropdownMenuItem>
-          <DropdownMenuSeparator />
-          <DropdownMenuItem>Logout</DropdownMenuItem>
-        </DropdownMenuContent>
-      </DropdownMenu>
-      <Button class="px-2 sm:px-4" v-else>Войти</Button>
+      <Button
+        @click="$router.push('/account')"
+        v-if="authStore.isAuthenticated"
+        variant="secondary"
+        size="icon"
+        class="rounded-full"
+      >
+        <CircleUser class="h-5 w-5" />
+        <span class="sr-only">Toggle user menu</span>
+      </Button>
+      <Button class="px-2 sm:px-4" @click="$router.push('/login')" v-else
+        >Войти</Button
+      >
     </div>
   </header>
 </template>
-
 
 <style scoped></style>

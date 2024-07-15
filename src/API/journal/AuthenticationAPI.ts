@@ -2,21 +2,19 @@ import { setHttpHeaders } from '../../axios.ts';
 import { Region, ServerResponse } from '@/types.ts';
 
 export class AuthenticationAPI {
-    setAuthenticationToken(token: string):void {
+    setAuthenticationToken(token: string): void {
         setHttpHeaders('Authorization', `Bearer ${token}`);
     }
 
-    setServerLanguage(language: Region):void {
+    setServerLanguage(language: Region): void {
         setHttpHeaders('Accept-Language', language);
     }
 
-    async testAuthenticationToken(token: string): Promise<boolean>{
+    async testAuthenticationToken(token: string): Promise<boolean> {
         token.trim();
-        return false
+        return false;
     }
 
-    async login(email: string, password: string): Promise<ServerResponse>{
-
-    }
+    async login(email: string, password: string): Promise<ServerResponse> {}
 }
 export const authenticationAPI = new AuthenticationAPI();

@@ -12,7 +12,7 @@ export const useUserStore = defineStore('authentication', {
         birthday: '',
         school: '',
         class: '',
-        photo: `${config.IP}/static/images/no_avatar/boy.jpg`,
+        photo: config.startAvatarURL,
         gender: 1,
     }),
 });

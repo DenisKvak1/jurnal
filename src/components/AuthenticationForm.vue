@@ -10,25 +10,26 @@ import {
 } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { ErrorMessage, Form, useField, useForm } from 'vee-validate';
+import { Form, useField, useForm } from 'vee-validate';
 import i18n from '@/locales';
 
 const t = i18n.global.t;
 
 type form = {
-    email: string,
-    password: string,
-}
+  email: string;
+  password: string;
+};
 
 const emit = defineEmits<{
-    (event: 'login', values: form): void;
-}>()
+  (event: 'login', values: form): void;
+}>();
 
 const validations = {
   email: (value: string) => {
     const regex = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g;
     if (!value) return t('validateError.required');
-    if (!regex.test(value)) return t('authenticationForm.validateError.emailCorrect');
+    if (!regex.test(value))
+      return t('authenticationForm.validateError.emailCorrect');
 
     return true;
   },
@@ -47,12 +48,14 @@ const validations = {
 const { handleSubmit, resetForm } = useForm({
   validationSchema: validations,
 });
-const { value: email, errorMessage: emailError } = useField('email');
-const { value: password, errorMessage: passwordError } = useField('password');
+const { value: email, errorMessage: emailError } = useField('email') as any;
+const { value: password, errorMessage: passwordError } = useField(
+  'password'
+) as any;
 
 const onSubmit = handleSubmit((values) => {
-    resetForm(values);
-    emit('login', values as form)
+  resetForm(values);
+  emit('login', values as form);
 });
 </script>
 
@@ -66,34 +69,34 @@ const onSubmit = handleSubmit((values) => {
         {{ $t('authenticationForm.describe') }}
       </CardDescription>
     </CardHeader>
-    <form>
+    <form @submit.prevent="onSubmit">
       <CardContent class="grid gap-4">
         <div class="grid gap-2">
           <Label for="email">{{ $t('authenticationForm.email') }}</Label>
           <Input
-            v-model="email as string"
+            v-model="email"
             id="email"
             type="email"
             placeholder="m@example.com"
             autocomplete="email"
             required
           />
-          <span>{{ emailError}}</span>
+          <span>{{ emailError }}</span>
         </div>
         <div class="grid gap-2">
           <Label for="password">{{ $t('authenticationForm.password') }}</Label>
           <Input
-            v-model="password as string"
+            v-model="password"
             id="password"
             type="password"
             autocomplete="password"
             required
           />
-          <span>{{passwordError}}</span>
+          <span>{{ passwordError }}</span>
         </div>
       </CardContent>
       <CardFooter>
-        <Button @click="onSubmit" class="w-full">
+        <Button type="submit">
           {{ $t('authenticationForm.signIn') }}
         </Button>
       </CardFooter>
